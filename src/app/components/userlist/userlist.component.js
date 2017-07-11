@@ -8,8 +8,16 @@ export default function (ngModule) {
             users: '<'
         }
     });
-    UserListComponent.$inject = ['appService'];
-    function UserListComponent(appService) {
+    UserListComponent.$inject = ['appService', '$window'];
+    function UserListComponent(appService, $window) {
         const ctrl = this;
+        ctrl.deleteUser = deleteUser;
+
+        function deleteUser(id) {
+            if ($window.confirm('Are you sure you would like to delete this user?')) {
+                console.log(id);
+            }
+        }
+        //end of UserListComponent
     }
 }
