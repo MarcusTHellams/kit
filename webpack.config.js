@@ -109,6 +109,6 @@ module.exports = {
                 minChunks: 2
             }),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
-        // new BaseHrefWebpackPlugin({ baseHref: '/' })
+        // new BaseHrefWebpackPlugin({ baseHref: '' })
     ]
 };
