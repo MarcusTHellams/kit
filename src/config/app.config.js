@@ -1,19 +1,20 @@
-config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider'];
+import store from './../app/store/store';
+import reducers from './../app/reducers';
+config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$ngReduxProvider'];
 
-function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $ngReduxProvider) {
 
     $httpProvider.defaults.headers.common.Authorization = 'Token token=7c2c5856acd55913ff4e08e60242163d';
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
 
+    $ngReduxProvider.createStoreWith(reducers, ['userEpic']);
+
     const states = [
         {
             name: 'userlist',
             url: '/',
-            component: 'userList',
-            resolve: {
-                users: getUsers
-            }
+            component: 'userList'
         },
         {
             name: 'userdetail',
@@ -25,11 +26,6 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     states.forEach(function (state) {
         $stateProvider.state(state);
     });
-
-    getUsers.$inject = ['appService'];
-    function getUsers(appService) {
-        return appService.getUsers();
-    }
 
 }
 

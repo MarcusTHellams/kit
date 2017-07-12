@@ -25,6 +25,29 @@ export const getUsersEpic = (action$, store) => {
             return Rx
                 .Observable
                 .of({ type: LOADING_USERS_ERROR, payload: err });
-        })
+        });
 
+};
+
+export default function (ngModule) {
+    ngModule.factory('userEpic', UserEpic);
+    UserEpic.$inject = ['appService'];
+    function UserEpic(appService) {
+        return action$
+            .ofType(LOADING_USERS)
+            .switchMap(() => {
+                return Rx
+                    .Observable
+                    .fromPromise(appService.getUsers());
+            })
+            .map((resp) => {
+                return { type: LOADING_USERS_SUCCESS, payload: resp };
+            })
+            .catch((err) => {
+                return Rx
+                    .Observable
+                    .of({ type: LOADING_USERS_ERROR, payload: err });
+            });
+    }
 }
+

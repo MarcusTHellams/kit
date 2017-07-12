@@ -5,9 +5,9 @@ const INITIAL_STATE = [];
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LOADING_USERS_SUCCESS:
-            return [...state, ...action.payload];
+            return [...action.payload];
         case LOADING_USERS_ERROR:
-            return [...state, ...action.payload];
+            return [...action.payload];
         default:
             return state;
     }

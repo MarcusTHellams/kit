@@ -6,8 +6,12 @@ import UserList from './app/components/userlist/userlist.component';
 import AppService from './app/services/app.service';
 import config from './config/app.config';
 import store from './app/store/store';
+import ngRedux from 'ng-redux';
+import UserEpic from './app/epics/user.epics';
+import UserEpic2 from './app/epics/user2.epic';
 
-const app = angular.module('myApp', ['ui.router'])
+
+const app = angular.module('myApp', ['ui.router', ngRedux])
     .config(config)
     .constant('store', store);
 
@@ -15,6 +19,7 @@ const app = angular.module('myApp', ['ui.router'])
 AppComponent(app);
 UserList(app);
 AppService(app);
+UserEpic2(app);
 
 
 angular.element().ready(function () {
