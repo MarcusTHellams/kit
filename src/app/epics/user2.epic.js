@@ -71,8 +71,27 @@ export default function (ngModule) {
 
         };
 
+        const selectUserEpic = (action$, store) => {
+            return action$
+                .ofType(userActions.LOADING_SELECTED_USER)
+                .switchMap((action) => {
+                    return Rx
+                        .Observable
+                        .fromPromise(appService.getUser(action.payload));
+                })
+                .map((resp) => {
+                    return { type: userActions.LOADING_SELECTED_SUCCESS, payload: resp };
+                })
+                .catch((err) => {
+                    return Rx
+                        .Observable
+                        .of({ type: userActions.LOADING_SELECTED_ERROR, payload: err });
+                });
 
-        return createEpicMiddleware(combineEpics(postUserEpic, deleteUserEpic, getUsersEpic));
+        };
+
+
+        return createEpicMiddleware(combineEpics(postUserEpic, deleteUserEpic, getUsersEpic, selectUserEpic));
         //end of factory function
     }
 }

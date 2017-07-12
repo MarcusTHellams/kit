@@ -35,7 +35,7 @@ export default function (ngModule) {
 
         function mapStateToThis(state) {
             return {
-                users: state.users
+                users: state.users.users
             };
         }
 

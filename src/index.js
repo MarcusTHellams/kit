@@ -9,7 +9,7 @@ import store from './app/store/store';
 import ngRedux from 'ng-redux';
 import UserEpic from './app/epics/user.epics';
 import UserEpic2 from './app/epics/user2.epic';
-
+import UserDetail from './app/components/userdetail/userdetail.component';
 
 const app = angular.module('myApp', ['ui.router', ngRedux])
     .config(config)
@@ -18,6 +18,7 @@ const app = angular.module('myApp', ['ui.router', ngRedux])
 
 AppComponent(app);
 UserList(app);
+UserDetail(app);
 AppService(app);
 UserEpic2(app);
 

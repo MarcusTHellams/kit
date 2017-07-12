@@ -94,7 +94,8 @@ module.exports = {
     devServer: {
         contentBase: './src',
         watchContentBase: true,
-        overlay: true
+        overlay: true,
+        historyApiFallback: true
     },
     plugins: [
         // new webpack.optimize.UglifyJsPlugin({     sourceMap: true }),

@@ -8,7 +8,8 @@ export default function (ngModule) {
         return {
             getUsers: getUsers,
             deleteUser: deleteUser,
-            addUser: addUser
+            addUser: addUser,
+            getUser: getUser
         };
 
         function getUsers() {
@@ -32,6 +33,15 @@ export default function (ngModule) {
         function addUser(data) {
             return $http
                 .post(`http://homework.kitcheck.com/api/user/`, data)
+                .then(
+                (resp) => { return resp.data; },
+                (err) => { console.log(err.data.message); }
+                );
+        }
+
+        function getUser(id) {
+            return $http
+                .get(`http://homework.kitcheck.com/api/user/${id}`)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
