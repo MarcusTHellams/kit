@@ -10,8 +10,11 @@ export default function (ngModule) {
     UserListComponent.$inject = ['appService', '$window', '$scope', '$ngRedux', '$timeout'];
     function UserListComponent(appService, $window, $scope, $ngRedux, $timeout) {
         const ctrl = this;
+        ctrl.removeUser = removeUser;
+        ctrl.firstName = '';
+        ctrl.lastName = '';
+        ctrl.onSubmit = onSubmit;
         let unsubscribe;
-        ctrl.deleteUser = deleteUser;
 
         ctrl.$onInit = function () {
             unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
@@ -23,10 +26,9 @@ export default function (ngModule) {
             unsubscribe();
         };
 
-        function deleteUser(id) {
+        function removeUser(id) {
             if ($window.confirm('Are you sure you would like to delete this user?')) {
-                console.log(id);
-                ctrl.deleteUser();
+                ctrl.deleteUser(id);
 
             }
         }
@@ -35,6 +37,17 @@ export default function (ngModule) {
             return {
                 users: state.users
             };
+        }
+
+        function onSubmit(e) {
+            if (ctrl.firstName.trim() !== '') {
+                const data = {
+                    first_name: ctrl.firstName,
+                    last_name: ctrl.lastName
+                };
+
+                ctrl.postUser(data);
+            }
         }
         //end of UserListComponent
     }

@@ -7,3 +7,7 @@ export const getUsers = () => {
 export const deleteUser = (id) => {
     return { type: userActions.DELETEING_USER, payload: id };
 };
+
+export const postUser = (info) => {
+    return { type: userActions.ADDING_USER, payload: info };
+};
