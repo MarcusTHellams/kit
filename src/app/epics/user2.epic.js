@@ -71,6 +71,27 @@ export default function (ngModule) {
 
         };
 
+
+
+        const postAccountEpic = (action$, store) => {
+            return action$
+                .ofType(userActions.ADDING_ACCOUNT)
+                .switchMap((action) => {
+                    return Rx
+                        .Observable
+                        .fromPromise(appService.addAccount(action.payload));
+                })
+                .map((resp) => {
+                    return { type: userActions.LOADING_ACCOUNT_TYPES };
+                })
+                .catch((err) => {
+                    return Rx
+                        .Observable
+                        .of({ type: userActions.ADDING_ACCOUNT_ERROR, payload: err });
+                });
+
+        };
+
         const selectUserEpic = (action$, store) => {
             return action$
                 .ofType(userActions.LOADING_SELECTED_USER)
@@ -90,8 +111,67 @@ export default function (ngModule) {
 
         };
 
+        const getAccountsEpic = (action$, store) => {
+            return action$
+                .ofType(userActions.LOADING_ACCOUNT_TYPES)
+                .switchMap(() => {
+                    return Rx
+                        .Observable
+                        .fromPromise(appService.getAccountTypes());
+                })
+                .map((resp) => {
+                    return { type: userActions.LOADING_ACCOUNT_SUCCESS, payload: resp };
+                })
+                .catch((err) => {
+                    return Rx
+                        .Observable
+                        .of({ type: userActions.LOADING_ACCOUNT_ERROR, payload: err });
+                });
 
-        return createEpicMiddleware(combineEpics(postUserEpic, deleteUserEpic, getUsersEpic, selectUserEpic));
+        };
+
+
+        const deleteAccountEpic = (action$, store) => {
+            return action$
+                .ofType(userActions.DELETEING_ACCOUNT)
+                .switchMap((action) => {
+                    return Rx
+                        .Observable
+                        .fromPromise(appService.deleteAccount(action.payload));
+                })
+                .map((resp) => {
+                    return { type: userActions.LOADING_ACCOUNT_TYPES };
+                })
+                .catch((err) => {
+                    return Rx
+                        .Observable
+                        .of({ type: userActions.DELETEING_ACCOUNT_ERROR, payload: err });
+                });
+
+        };
+
+
+        const updateUserEpic = (action$, store) => {
+            return action$
+                .ofType(userActions.UPDATING_USER)
+                .switchMap((action) => {
+                    return Rx
+                        .Observable
+                        .fromPromise(appService.updateUser(action.payload));
+                })
+                .map((resp) => {
+                    return { type: userActions.UPDATING_USER_SUCCESS, payload: resp };
+                })
+                .catch((err) => {
+                    return Rx
+                        .Observable
+                        .of({ type: userActions.UPDATING_USER_ERROR, payload: err });
+                });
+
+        };
+
+
+        return createEpicMiddleware(combineEpics(postUserEpic, deleteUserEpic, getUsersEpic, selectUserEpic, getAccountsEpic, updateUserEpic, deleteAccountEpic, postAccountEpic));
         //end of factory function
     }
 }

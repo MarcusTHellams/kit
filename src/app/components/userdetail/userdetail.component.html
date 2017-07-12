@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-6">
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
                 <h3 class="panel-title pull-left">{{$ctrl.user.first_name}} {{$ctrl.user.last_name}}</h3>
@@ -12,5 +12,14 @@
                 <li ng-repeat="account in $ctrl.user.account_types" class="list-group-item">{{account.name}}</li>
             </ul>
         </div>
+    </div>
+    <div class="col-sm-6">
+        <h3>Add Account Types to the User</h3>
+        <div ng-repeat="account in $ctrl.accounts" class="checkbox">
+            <label>
+                <input type="checkbox" checklist-model="$ctrl.accountsToAdd" checklist-value="account.id"> {{account.name}}
+            </label>
+        </div>
+        <p><button ng-click="$ctrl.updateUserAccountTypes()" class="btn btn-success">Add</button></p>
     </div>
 </div>

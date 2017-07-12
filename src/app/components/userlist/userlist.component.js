@@ -47,6 +47,8 @@ export default function (ngModule) {
                 };
 
                 ctrl.postUser(data);
+                ctrl.firstName = ctrl.lastName = '';
+
             }
         }
         //end of UserListComponent

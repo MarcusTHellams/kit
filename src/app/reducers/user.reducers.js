@@ -3,7 +3,8 @@ import { LOADING_USERS, LOADING_USERS_SUCCESS, LOADING_USERS_ERROR, userActions 
 
 const INITIAL_STATE = {
     users: [],
-    selectedUser: {}
+    selectedUser: {},
+    accountTypes: []
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -14,6 +15,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case userActions.LOADING_SELECTED_SUCCESS:
             return Object.assign({}, state, { selectedUser: action.payload });
         case userActions.LOADING_SELECTED_ERROR:
+            return Object.assign({}, state, { selectedUser: action.payload });
+        case userActions.LOADING_ACCOUNT_SUCCESS:
+            return Object.assign({}, state, { accountTypes: [...action.payload] });
+        case userActions.UPDATING_USER_SUCCESS:
+            return Object.assign({}, state, { selectedUser: action.payload });
+        case userActions.UPDATING_USER_ERROR:
             return Object.assign({}, state, { selectedUser: action.payload });
         default:
             return state;

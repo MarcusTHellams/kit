@@ -20,6 +20,11 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             name: 'userdetail',
             url: '/user/{userId}',
             component: 'userDetail'
+        },
+        {
+            name: 'accounts',
+            url: '/accounts',
+            component: 'accounts'
         }
     ];
 
