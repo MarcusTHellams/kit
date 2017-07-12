@@ -111,5 +111,10 @@ module.exports = {
             }),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
         // new BaseHrefWebpackPlugin({ baseHref: '' })
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery',
+            $: 'jquery',
+            jquery: 'jquery'
+        })
     ]
 };

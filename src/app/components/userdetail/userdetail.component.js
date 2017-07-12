@@ -22,7 +22,6 @@ export default function (ngModule) {
             unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
             ctrl.getUser($stateParams.userId);
             ctrl.getAccounts();
-            console.log(ctrl);
         };
 
 

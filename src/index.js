@@ -1,6 +1,8 @@
 import angular from 'angular';
 import 'angular-ui-router';
 import 'bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+import 'jquery/dist/jquery.min';
+import 'bootstrap-sass/assets/javascripts/bootstrap.min';
 import AppComponent from './app/app.component';
 import UserList from './app/components/userlist/userlist.component';
 import AppService from './app/services/app.service';
