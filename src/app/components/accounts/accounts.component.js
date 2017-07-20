@@ -8,8 +8,8 @@ export default function (ngModule) {
         controller: AccountsComponent,
         template: html
     });
-    AccountsComponent.$inject = ['appService', '$window', '$scope', '$ngRedux', '$timeout'];
-    function AccountsComponent(appService, $window, $scope, $ngRedux, $timeout) {
+    AccountsComponent.$inject = ['appService', '$window', '$scope', '$timeout'];
+    function AccountsComponent(appService, $window, $scope, $timeout) {
         const ctrl = this;
         ctrl.removeAccount = removeAccount;
         ctrl.numOfUsers = {};
@@ -29,8 +29,6 @@ export default function (ngModule) {
         };
 
 
-        ctrl.$onDestroy = function () {
-        };
 
         function removeAccount(id) {
             if ($window.confirm('Are you sure you would like to delete this account?')) {
