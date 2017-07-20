@@ -1,14 +1,11 @@
-import store from './../app/store/store';
-import reducers from './../app/reducers';
-config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$ngReduxProvider'];
+config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider'];
 
-function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $ngReduxProvider) {
+function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
     $httpProvider.defaults.headers.common.Authorization = 'Token token=7c2c5856acd55913ff4e08e60242163d';
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
 
-    $ngReduxProvider.createStoreWith(reducers, ['userEpic']);
 
     const states = [
         {
