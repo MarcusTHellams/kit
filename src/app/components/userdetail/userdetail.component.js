@@ -9,8 +9,8 @@ export default function (ngModule) {
         controller: UserDetailComponent,
         template: html
     });
-    UserDetailComponent.$inject = ['$window', '$scope', '$ngRedux', '$stateParams', '$state'];
-    function UserDetailComponent($window, $scope, $ngRedux, $stateParams, $state) {
+    UserDetailComponent.$inject = ['appService', '$window', '$scope', '$stateParams', '$state'];
+    function UserDetailComponent(appService, $window, $scope, $stateParams, $state) {
         const ctrl = this;
         ctrl.accountsToAdd = [];
         ctrl.removeUser = removeUser;
@@ -19,28 +19,30 @@ export default function (ngModule) {
 
 
         ctrl.$onInit = function () {
-            unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
-            ctrl.getUser($stateParams.userId);
-            ctrl.getAccounts();
+
+            appService.getUser($stateParams.userId)
+                .then((user) => {
+                    ctrl.user = user;
+                });
+
+            appService.getAccountTypes()
+                .then((accounts) => {
+                    ctrl.accounts = accounts;
+                });
         };
 
 
         ctrl.$onDestroy = function () {
-            unsubscribe();
         };
 
 
-        function mapStateToThis(state) {
-            return {
-                user: state.users.selectedUser,
-                accounts: state.users.accountTypes
-            };
-        }
-
         function removeUser(id) {
             if ($window.confirm('Are you sure you would like to delete this user?')) {
-                ctrl.deleteUser(id);
-                $state.go('userlist');
+
+                appService.deleteUser(id)
+                    .then(() => {
+                        $state.go('userlist');
+                    });
             }
         }
 
@@ -51,7 +53,14 @@ export default function (ngModule) {
                     return account.id;
                 }))
             };
-            ctrl.updateUser(user);
+
+            appService.updateUser(user)
+                .then(() => {
+                    appService.getUser($stateParams.userId)
+                        .then((user) => {
+                            ctrl.user = user;
+                        });
+                });
         }
 
 
