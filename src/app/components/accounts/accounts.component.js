@@ -18,49 +18,59 @@ export default function (ngModule) {
         let unsubscribe;
 
         ctrl.$onInit = function () {
-            unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
-            ctrl.getAccounts();
-            ctrl.getUsers();
+
+            appService.getAccountTypes()
+                .then((accounts) => {
+                    ctrl.accounts = accounts;
+                })
+                .then(() => {
+                    getNumberOfUsersOnAccount();
+                });
         };
-
-        $ngRedux.subscribe(() => {
-            if ($ngRedux.getState().users.users.length) {
-                let temp = $ngRedux.getState().users.users;
-
-                let temp2 = [];
-                temp = temp.map((user) => {
-                    return user.account_types;
-                });
-
-                temp.forEach((user) => {
-                    user.forEach((u) => {
-                        temp2.push(u);
-                    });
-                });
-
-                temp = groupby(temp2, (u) => {
-                    return u.id;
-                });
-                ctrl.numOfUsers = temp;
-            }
-        });
 
 
         ctrl.$onDestroy = function () {
-            unsubscribe();
         };
 
         function removeAccount(id) {
             if ($window.confirm('Are you sure you would like to delete this account?')) {
-                ctrl.deleteAccount(id);
+
+                appService.deleteAccount(id)
+                    .then(() => {
+                        appService.getAccountTypes()
+                            .then((accounts) => {
+                                ctrl.accounts = accounts;
+                            })
+                            .then(() => {
+                                getNumberOfUsersOnAccount();
+                            });
+                    });
 
             }
         }
 
-        function mapStateToThis(state) {
-            return {
-                accounts: state.users.accountTypes
-            };
+        function getNumberOfUsersOnAccount() {
+            appService.getUsers()
+                .then((users) => {
+                    let temp;
+                    ctrl.users = temp = users;
+                    let temp2 = [];
+                    temp = temp.map((user) => {
+                        return user.account_types;
+                    });
+
+                    temp.forEach((user) => {
+                        user.forEach((u) => {
+                            temp2.push(u);
+                        });
+                    });
+
+                    temp = groupby(temp2, (u) => {
+                        return u.id;
+                    });
+                    ctrl.numOfUsers = temp;
+                    //end of then
+                });
         }
 
         function onSubmit(e) {
@@ -69,7 +79,17 @@ export default function (ngModule) {
                     "name": ctrl.account_name,
                 };
 
-                ctrl.postAccount(data);
+                appService.addAccount(data)
+                    .then(() => {
+                        appService.getAccountTypes()
+                            .then((accounts) => {
+                                ctrl.accounts = accounts;
+                            })
+                            .then(() => {
+                                getNumberOfUsersOnAccount();
+                            });
+                    });
+
                 ctrl.account_name = '';
             }
         }
