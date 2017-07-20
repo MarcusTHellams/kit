@@ -2,6 +2,7 @@ import html from './userdetail.component.html';
 import * as UserActions from './../../actions/user.actions';
 import { getUsers } from './../../actions/user.actions';
 import union from 'lodash.union';
+import map from 'lodash.map';
 
 
 export default function (ngModule) {
@@ -9,8 +10,8 @@ export default function (ngModule) {
         controller: UserDetailComponent,
         template: html
     });
-    UserDetailComponent.$inject = ['appService', '$window', '$scope', '$stateParams', '$state'];
-    function UserDetailComponent(appService, $window, $scope, $stateParams, $state) {
+    UserDetailComponent.$inject = ['appService', '$window', '$scope', '$stateParams', '$state', '$timeout'];
+    function UserDetailComponent(appService, $window, $scope, $stateParams, $state, $timeout) {
         const ctrl = this;
         ctrl.accountsToAdd = [];
         ctrl.removeUser = removeUser;
@@ -23,12 +24,15 @@ export default function (ngModule) {
             appService.getUser($stateParams.userId)
                 .then((user) => {
                     ctrl.user = user;
+                }).then(() => {
+                    appService.getAccountTypes()
+                        .then((accounts) => {
+                            ctrl.accounts = accounts;
+                            filterOutAlreadyTakenAccounts();
+                        });
                 });
 
-            appService.getAccountTypes()
-                .then((accounts) => {
-                    ctrl.accounts = accounts;
-                });
+
         };
 
 
@@ -59,8 +63,22 @@ export default function (ngModule) {
                     appService.getUser($stateParams.userId)
                         .then((user) => {
                             ctrl.user = user;
+                            filterOutAlreadyTakenAccounts();
                         });
                 });
+        }
+
+        function filterOutAlreadyTakenAccounts() {
+            if (ctrl.accounts.length) {
+                const sUserAT = map(ctrl.user.account_types, 'id');
+                const tempAccountTypes = ctrl.accounts.filter((account) => {
+                    return sUserAT.indexOf(account.id) === -1;
+                });
+                $timeout(function () {
+                    ctrl.accounts = tempAccountTypes;
+                }, 0);
+            }
+
         }
 
 

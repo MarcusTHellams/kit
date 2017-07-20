@@ -35,6 +35,7 @@
     "checklist-model": "^0.11.0",
     "jquery": "^3.2.1",
     "lodash.groupby": "^4.6.0",
+    "lodash.map": "^4.6.0",
     "lodash.union": "^4.6.0"
   }
 }
