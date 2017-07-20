@@ -7,36 +7,34 @@ export default function (ngModule) {
         controller: UserListComponent,
         template: html
     });
-    UserListComponent.$inject = ['appService', '$window', '$scope', '$ngRedux', '$timeout'];
-    function UserListComponent(appService, $window, $scope, $ngRedux, $timeout) {
+    UserListComponent.$inject = ['appService', '$window', '$scope', '$timeout'];
+    function UserListComponent(appService, $window, $scope, $timeout) {
         const ctrl = this;
         ctrl.removeUser = removeUser;
         ctrl.firstName = '';
         ctrl.lastName = '';
         ctrl.onSubmit = onSubmit;
-        let unsubscribe;
 
         ctrl.$onInit = function () {
-            unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
-            ctrl.getUsers();
+            appService.getUsers()
+                .then((users) => {
+                    ctrl.users = users;
+                });
         };
 
-
-        ctrl.$onDestroy = function () {
-            unsubscribe();
-        };
 
         function removeUser(id) {
             if ($window.confirm('Are you sure you would like to delete this user?')) {
-                ctrl.deleteUser(id);
 
+                appService.deleteUser(id)
+                    .then(() => {
+                        appService.getUsers()
+                            .then((users) => {
+                                ctrl.users = users;
+                            });
+                    });
             }
-        }
 
-        function mapStateToThis(state) {
-            return {
-                users: state.users.users
-            };
         }
 
         function onSubmit(e) {
@@ -46,7 +44,15 @@ export default function (ngModule) {
                     last_name: ctrl.lastName
                 };
 
-                ctrl.postUser(data);
+                appService.addUser(data)
+                    .then(() => {
+                        appService.getUsers()
+                            .then((users) => {
+                                ctrl.users = users;
+                            });
+                    });
+
+
                 ctrl.firstName = ctrl.lastName = '';
 
             }
