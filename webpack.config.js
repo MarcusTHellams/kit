@@ -5,14 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const extractCSS = new ExtractTextPlugin('static/css/[name].css');
 const extractSass = new ExtractTextPlugin('static/css/[name].css');
 const { BaseHrefWebpackPlugin } = require('base-href-webpack-plugin');
+console.log(process.env);
 
 module.exports = {
-    entry: {
-        vendor: [
-            'angular'
-        ],
-        bundle: './src/index.js'
-    },
+    entry: './src/index.js',
     devtool: 'inline-source-map',
     output: {
         path: path.join(path.join(process.cwd(), 'dist')),
@@ -101,14 +97,14 @@ module.exports = {
         // new webpack.optimize.UglifyJsPlugin({     sourceMap: true }),
         extractSass,
         extractCSS,
-        new webpack
-            .optimize
-            .CommonsChunkPlugin({
-                names: [
-                    'common', 'vendor'
-                ],
-                minChunks: 2
-            }),
+        // new webpack
+        //     .optimize
+        //     .CommonsChunkPlugin({
+        //         names: [
+        //             'common', 'vendor'
+        //         ],
+        //         minChunks: 2
+        //     }),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
         // new BaseHrefWebpackPlugin({ baseHref: '' })
         new webpack.ProvidePlugin({

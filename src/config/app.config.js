@@ -4,7 +4,7 @@ config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider', '
 
 function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $ngReduxProvider) {
 
-    $httpProvider.defaults.headers.common.Authorization = 'Token token=7c2c5856acd55913ff4e08e60242163d';
+    // $httpProvider.defaults.headers.common.Authorization = 'Token token=7c2c5856acd55913ff4e08e60242163d';
     $locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
 

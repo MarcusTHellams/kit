@@ -2,6 +2,7 @@ import html from './userdetail.component.html';
 import * as UserActions from './../../actions/user.actions';
 import { getUsers } from './../../actions/user.actions';
 import union from 'lodash.union';
+import map from 'lodash.map';
 
 
 export default function (ngModule) {
@@ -9,8 +10,8 @@ export default function (ngModule) {
         controller: UserDetailComponent,
         template: html
     });
-    UserDetailComponent.$inject = ['$window', '$scope', '$ngRedux', '$stateParams', '$state'];
-    function UserDetailComponent($window, $scope, $ngRedux, $stateParams, $state) {
+    UserDetailComponent.$inject = ['$window', '$scope', '$ngRedux', '$stateParams', '$state', '$timeout'];
+    function UserDetailComponent($window, $scope, $ngRedux, $stateParams, $state, $timeout) {
         const ctrl = this;
         ctrl.accountsToAdd = [];
         ctrl.removeUser = removeUser;
@@ -23,6 +24,22 @@ export default function (ngModule) {
             ctrl.getUser($stateParams.userId);
             ctrl.getAccounts();
         };
+
+        $ngRedux.subscribe(() => {
+            const state = $ngRedux.getState();
+            if (state.users.accountTypes.length && state.users.selectedUser.hasOwnProperty('id')) {
+                const { accountTypes, selectedUser } = state.users;
+                const sUserAT = map(selectedUser.account_types, 'id');
+                const tempAccountTypes = accountTypes.filter((account) => {
+                    return sUserAT.indexOf(account.id) === -1;
+                });
+                $timeout(function () {
+                    ctrl.accounts = tempAccountTypes;
+                }, 0);
+            }
+
+        });
+
 
 
         ctrl.$onDestroy = function () {
