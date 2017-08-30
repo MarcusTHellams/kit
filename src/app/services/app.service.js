@@ -4,6 +4,7 @@ export default function (ngModule) {
     AppService.$inject = ['$http'];
 
     function AppService($http) {
+        const url = 'http://localhost:3000';
 
         return {
             getUsers: getUsers,
@@ -18,7 +19,7 @@ export default function (ngModule) {
 
         function getUsers() {
             return $http
-                .get('http://homework.kitcheck.com/api/user')
+                .get(`${url}/user`)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -27,7 +28,7 @@ export default function (ngModule) {
 
         function deleteUser(id) {
             return $http
-                .delete(`http://homework.kitcheck.com/api/user/${id}`)
+                .delete(`${url}/user/${id}`)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -36,7 +37,7 @@ export default function (ngModule) {
 
         function updateUser(info) {
             return $http
-                .put(`http://homework.kitcheck.com/api/user/${info.id}`, { account_type_ids: info.account_type_ids })
+                .put(`${url}/user/${info.id}`, { account_types: info.account_types })
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -45,7 +46,7 @@ export default function (ngModule) {
 
         function addUser(data) {
             return $http
-                .post(`http://homework.kitcheck.com/api/user/`, data)
+                .post(`${url}/user/`, data)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -55,7 +56,7 @@ export default function (ngModule) {
 
         function addAccount(data) {
             return $http
-                .post(`http://homework.kitcheck.com/api/account_type/`, data)
+                .post(`${url}/account_type/`, data)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -64,7 +65,7 @@ export default function (ngModule) {
 
         function getUser(id) {
             return $http
-                .get(`http://homework.kitcheck.com/api/user/${id}`)
+                .get(`${url}/user/${id}`)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -73,7 +74,7 @@ export default function (ngModule) {
 
         function getAccountTypes() {
             return $http
-                .get(`http://homework.kitcheck.com/api/account_type/`)
+                .get(`${url}/account_type/`)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }
@@ -82,7 +83,7 @@ export default function (ngModule) {
 
         function deleteAccount(id) {
             return $http
-                .delete(`http://homework.kitcheck.com/api/account_type/${id}`)
+                .delete(`${url}/account_type/${id}`)
                 .then(
                 (resp) => { return resp.data; },
                 (err) => { console.log(err.data.message); }

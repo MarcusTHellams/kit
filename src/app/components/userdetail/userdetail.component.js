@@ -62,11 +62,10 @@ export default function (ngModule) {
         }
 
         function updateUserAccountTypes() {
+            let accounts = union(ctrl.accountsToAdd, ctrl.user.account_types);
             const user = {
                 id: ctrl.user.id,
-                account_type_ids: union(ctrl.accountsToAdd, ctrl.user.account_types.map((account) => {
-                    return account.id;
-                }))
+                account_types: accounts
             };
             ctrl.updateUser(user);
         }
