@@ -15,6 +15,7 @@ export default function (ngModule) {
         ctrl.lastName = '';
         ctrl.onSubmit = onSubmit;
         ctrl.scope = $scope;
+        ctrl.removeAccountFromUser = removeAccountFromUser;
         let unsubscribe;
 
         ctrl.$onInit = function () {
@@ -65,6 +66,19 @@ export default function (ngModule) {
                 ctrl.firstName = ctrl.lastName = '';
 
             }
+        }
+
+        function removeAccountFromUser(account, user) {
+            let accounts = user.account_types.filter((acc) => {
+                return acc.id !== account.id;
+            });
+
+            const data = {
+                id: user.id,
+                account_types: accounts
+            };
+            ctrl.updateUser(data);
+            user.account_types = accounts;
         }
         //end of UserListComponent
     }

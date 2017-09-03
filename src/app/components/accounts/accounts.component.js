@@ -19,6 +19,7 @@ export default function (ngModule) {
         ctrl.accountsToUser = accountsToUser;
         ctrl.checkIfUserBelongsToAccount = checkIfUserBelongsToAccount;
         let unsubscribe;
+        let unsubscribe2;
 
         ctrl.$onInit = function () {
             unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
@@ -26,7 +27,7 @@ export default function (ngModule) {
             ctrl.getUsers();
         };
 
-        $ngRedux.subscribe(() => {
+        unsubscribe2 = $ngRedux.subscribe(() => {
             if ($ngRedux.getState().app.users.length) {
                 let temp = ctrl.users = $ngRedux.getState().app.users;
 
@@ -50,6 +51,7 @@ export default function (ngModule) {
 
         ctrl.$onDestroy = function () {
             unsubscribe();
+            unsubscribe2();
         };
 
         function removeAccount(id) {
