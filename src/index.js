@@ -13,9 +13,12 @@ import UserEpic from './app/epics/user.epics';
 import UserEpic2 from './app/epics/user2.epic';
 import UserDetail from './app/components/userdetail/userdetail.component';
 import Accounts from './app/components/accounts/accounts.component';
+import 'ui-select/dist/select.min.css';
+import 'angular-sanitize';
 import 'checklist-model';
+import 'ui-select';
 
-const app = angular.module('myApp', ['ui.router', ngRedux, 'checklist-model'])
+const app = angular.module('myApp', ['ui.router', ngRedux, 'checklist-model', 'ui.select', require('angular-sanitize')])
     .config(config)
     .constant('store', store);
 

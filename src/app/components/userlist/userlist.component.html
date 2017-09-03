@@ -31,13 +31,15 @@
         <form name="addUserForm">
             <div class="form-group">
                 <label for="first_name">First Name</label>
-                <input type="text" class="form-control" id="first_name" placeholder="First Name" ng-model="$ctrl.firstName" required>
+                <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name" ng-model="$ctrl.firstName"
+                    required>
             </div>
             <div class="form-group">
                 <label for="last_name">Last Name</label>
-                <input type="text" class="form-control" id="last_name" placeholder="Last Name" ng-model="$ctrl.lastName">
+                <input name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name" ng-model="$ctrl.lastName">
             </div>
             <button ng-click="$ctrl.onSubmit($event)" type="submit" class="btn btn-success">Submit</button>
         </form>
+        <p>{{$ctrl.scope.addUserForm.first_name.$valid}}</p>
     </div>
 </div>

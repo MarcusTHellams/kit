@@ -6,7 +6,7 @@
   "scripts": {
     "frontend:server": "node_modules/.bin/webpack-dev-server",
     "backend:server": "node ./server/index.js",
-    "build": "node_modules/.bin/webpack",
+    "build": "node_modules/.bin/del-cli dist && node_modules/.bin/webpack",
     "servers": "node_modules/.bin/concurrently \"npm run backend:server\" \"npm run frontend:server\""
   },
   "devDependencies": {
@@ -17,6 +17,7 @@
     "concurrently": "^3.5.0",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
+    "del-cli": "^1.1.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.29.0",
@@ -34,12 +35,14 @@
   "license": "ISC",
   "dependencies": {
     "angular": "^1.6.5",
+    "angular-sanitize": "^1.6.6",
     "angular-ui-router": "^1.0.3",
     "body-parser": "^1.17.2",
     "bootstrap-sass": "^3.3.7",
     "checklist-model": "^0.11.0",
     "express": "^4.15.4",
     "jquery": "^3.2.1",
+    "lodash.assign": "^4.2.0",
     "lodash.groupby": "^4.6.0",
     "lodash.map": "^4.6.0",
     "lodash.union": "^4.6.0",
@@ -47,6 +50,7 @@
     "redux": "^3.7.1",
     "redux-observable": "^0.14.1",
     "redux-thunk": "^2.2.0",
-    "rxjs": "^5.4.2"
+    "rxjs": "^5.4.2",
+    "ui-select": "^0.19.8"
   }
 }

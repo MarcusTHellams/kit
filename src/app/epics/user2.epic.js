@@ -171,7 +171,27 @@ export default function (ngModule) {
         };
 
 
-        return createEpicMiddleware(combineEpics(postUserEpic, deleteUserEpic, getUsersEpic, selectUserEpic, getAccountsEpic, updateUserEpic, deleteAccountEpic, postAccountEpic));
+        const bulkUpdateUserEpic = (action$, store) => {
+            return action$
+                .ofType(userActions.BULK_UPDATING_USER)
+                .switchMap((action) => {
+                    return Rx
+                        .Observable
+                        .fromPromise(appService.bulkUpdateUser(action.payload));
+                })
+                .map((resp) => {
+                    return { type: userActions.BULK_UPDATING_USER_SUCCESS, payload: resp };
+                })
+                .catch((err) => {
+                    return Rx
+                        .Observable
+                        .of({ type: userActions.BULK_UPDATING_USER_ERROR, payload: err });
+                });
+
+        };
+
+
+        return createEpicMiddleware(combineEpics(postUserEpic, deleteUserEpic, getUsersEpic, selectUserEpic, getAccountsEpic, updateUserEpic, deleteAccountEpic, postAccountEpic, bulkUpdateUserEpic));
         //end of factory function
     }
 }

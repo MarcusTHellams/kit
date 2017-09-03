@@ -14,23 +14,25 @@ export default function (ngModule) {
         ctrl.firstName = '';
         ctrl.lastName = '';
         ctrl.onSubmit = onSubmit;
+        ctrl.scope = $scope;
         let unsubscribe;
 
         ctrl.$onInit = function () {
             unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
             ctrl.getUsers();
-            $http.get('https://autocomplete.demandbase.com/autocomplete?callback=jQuery1710768639861977386_1501295456836&version=v1.7.2&sequence=27&term=accenture&key=f783f64236befdcd4bfcb92c1d6e219a&records=1000&domain=hotmail.com&query=compass&_=1501295607203')
-                .then(
-                (resp) => {
-                    return JSON.parse(resp.data.slice(resp.data.indexOf('"pick') + 8, -2));
-                },
-                (resp) => {
-                    console.log(resp);
-                }
-                )
-                .then(
-                (resp) => { console.log(resp); }
-                );
+            // $http.get('https://autocomplete.demandbase.com/autocomplete?callback=jQuery1710768639861977386_1501295456836&version=v1.7.2&sequence=27&term=accenture&key=f783f64236befdcd4bfcb92c1d6e219a&records=1000&domain=hotmail.com&query=compass&_=1501295607203')
+            //     .then(
+            //     (resp) => {
+            //         return JSON.parse(resp.data.slice(resp.data.indexOf('"pick') + 8, -2));
+            //     },
+            //     (resp) => {
+            //         console.log(resp);
+            //     }
+            //     )
+            //     .then(
+            //     (resp) => { console.log(resp); }
+            //     );
+
 
         };
 
@@ -48,7 +50,7 @@ export default function (ngModule) {
 
         function mapStateToThis(state) {
             return {
-                users: state.users.users
+                users: state.app.users
             };
         }
 

@@ -20,6 +20,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return Object.assign({}, state, { accountTypes: [...action.payload] });
         case userActions.UPDATING_USER_SUCCESS:
             return Object.assign({}, state, { selectedUser: action.payload });
+        case userActions.BULK_UPDATING_USER_SUCCESS:
+            return Object.assign({}, state, { users: [...action.payload] });
         case userActions.UPDATING_USER_ERROR:
             return Object.assign({}, state, { selectedUser: action.payload });
         default:

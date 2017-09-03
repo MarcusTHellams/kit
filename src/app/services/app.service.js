@@ -14,7 +14,8 @@ export default function (ngModule) {
             getAccountTypes: getAccountTypes,
             updateUser: updateUser,
             deleteAccount: deleteAccount,
-            addAccount: addAccount
+            addAccount: addAccount,
+            bulkUpdateUser: bulkUpdateUser
         };
 
         function getUsers() {
@@ -22,7 +23,7 @@ export default function (ngModule) {
                 .get(`${url}/user`)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -31,7 +32,7 @@ export default function (ngModule) {
                 .delete(`${url}/user/${id}`)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -40,7 +41,17 @@ export default function (ngModule) {
                 .put(`${url}/user/${info.id}`, { account_types: info.account_types })
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
+                );
+        }
+
+
+        function bulkUpdateUser(data) {
+            return $http
+                .put(`${url}/user`, data)
+                .then(
+                (resp) => { return resp.data; },
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -49,7 +60,7 @@ export default function (ngModule) {
                 .post(`${url}/user/`, data)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -59,7 +70,7 @@ export default function (ngModule) {
                 .post(`${url}/account_type/`, data)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -68,7 +79,7 @@ export default function (ngModule) {
                 .get(`${url}/user/${id}`)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -77,7 +88,7 @@ export default function (ngModule) {
                 .get(`${url}/account_type/`)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
 
@@ -86,7 +97,7 @@ export default function (ngModule) {
                 .delete(`${url}/account_type/${id}`)
                 .then(
                 (resp) => { return resp.data; },
-                (err) => { console.log(err.data.message); }
+                (err) => { console.error(err.data.message); }
                 );
         }
     }

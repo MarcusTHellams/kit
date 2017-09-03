@@ -12,6 +12,7 @@
                         <th>Account Name</th>
                         <th>Number of Users</th>
                         <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,6 +22,19 @@
                             {{$ctrl.numOfUsers[account.id].length || 0}}
                         </td>
                         <td><button ng-click="$ctrl.removeAccount(account.id)" type="button" class="btn btn-danger btn-xs">Delete Account</button></td>
+                        <td>
+                            <div ng-if="$ctrl.checkIfUserBelongsToAccount(account.id).length">
+                                <div class="form-group">
+                                    <ui-select multiple ng-model="account.users" theme="bootstrap">
+                                        <ui-select-match allow-clear="true" placeholder="Enter users to add this account to">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
+                                        <ui-select-choices repeat="user in ($ctrl.checkIfUserBelongsToAccount(account.id) | filter: $select.search) track by user.id">
+                                            <div ng-bind-html="user.first_name + ' ' + user.last_name | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <button ng-click="$ctrl.accountsToUser(account)" ng-disabled="!account.users.length" class="btn btn-success btn-xs">Add</button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

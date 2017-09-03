@@ -9,7 +9,7 @@
                 <p>There are no accounts associated with this user</p>
             </div>
             <ul ng-if="$ctrl.user.account_types.length > 0" class="list-group">
-                <li ng-repeat="account in $ctrl.user.account_types" class="list-group-item">{{account.name}}</li>
+                <li ng-repeat="account in $ctrl.user.account_types" class="list-group-item">{{account.name}} <span class="pull-right"><a ng-click="$ctrl.deleteAccountFromUser(account)" href="javascript:void(0)">X</a></span></li>
             </ul>
         </div>
     </div>

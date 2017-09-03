@@ -2,10 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const extractCSS = new ExtractTextPlugin('static/css/[name].css');
 const extractSass = new ExtractTextPlugin('static/css/[name].css');
 const { BaseHrefWebpackPlugin } = require('base-href-webpack-plugin');
-console.log(process.env);
 
 module.exports = {
     entry: './src/index.js',
@@ -22,6 +20,7 @@ module.exports = {
                     /\.(js|jsx)$/,
                     /\.css$/,
                     /\.scss$/,
+                    /\.sass$/,
                     /\.json$/
                 ],
                 use: [
@@ -51,7 +50,7 @@ module.exports = {
                     }
                 ]
             }, {
-                test: /\.scss$/,
+                test: /\.(scss)|(css)$/,
                 use: extractSass.extract({
                     use: [
                         {
@@ -65,24 +64,8 @@ module.exports = {
                                 sourceMap: true
                             }
                         }
-                    ]
-                })
-            }, {
-                test: /\.css$/,
-                use: extractCSS.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: true
-                            }
-                        }, {
-                            loader: 'style-loader',
-                            options: {
-                                sourceMap: true
-                            }
-                        }
-                    ]
+                    ],
+                    publicPath: '/'
                 })
             }
         ]
@@ -96,7 +79,6 @@ module.exports = {
     plugins: [
         // new webpack.optimize.UglifyJsPlugin({     sourceMap: true }),
         extractSass,
-        extractCSS,
         // new webpack
         //     .optimize
         //     .CommonsChunkPlugin({
@@ -106,7 +88,7 @@ module.exports = {
         //         minChunks: 2
         //     }),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
-        // new BaseHrefWebpackPlugin({ baseHref: '' })
+        new BaseHrefWebpackPlugin({ baseHref: '/' }),
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',

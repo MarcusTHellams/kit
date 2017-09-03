@@ -49,7 +49,7 @@ app.post('/user', (req, resp) => {
         }
 
         let users = JSON.parse(data.toString());
-        let newUser = _.merge({}, userInterface, req.body, { "id": generateId() });
+        let newUser = _.assign({}, userInterface, req.body, { "id": generateId() });
         users = users.concat([newUser]);
 
         fs.writeFile('./server/users.json', JSON.stringify(users), (err) => {
@@ -74,7 +74,7 @@ app.put('/user/:id', (req, resp) => {
 
         users = users.map((user) => {
             if (user.id === req.params.id) {
-                updatedUser = _.merge({}, user, req.body);
+                updatedUser = _.assign({}, user, req.body);
                 return updatedUser;
             }
             return user;
@@ -86,6 +86,38 @@ app.put('/user/:id', (req, resp) => {
             }
 
             resp.json(updatedUser);
+        });
+    });
+});
+
+
+app.put('/user', (req, resp) => {
+    fs.readFile('./server/users.json', (err, data) => {
+        if (err) {
+            throw err;
+        }
+
+        const updates = req.body;
+        let users = JSON.parse(data.toString());
+
+        updates.forEach((update) => {
+            let i;
+            let user = users.find((user, index) => {
+                i = index;
+                return user.id === update.id;
+            });
+
+            user = _.assign({}, update);
+            users[i] = user;
+
+        });
+
+        fs.writeFile('./server/users.json', JSON.stringify(users), (err) => {
+            if (err) {
+                throw err;
+            }
+
+            resp.json(users);
         });
     });
 });
@@ -150,7 +182,7 @@ app.post('/account_type', (req, resp) => {
         }
 
         let accounts = JSON.parse(data.toString());
-        let newAccount = _.merge({}, accountInterface, req.body, { "id": generateId() });
+        let newAccount = _.assign({}, accountInterface, req.body, { "id": generateId() });
         accounts = accounts.concat([newAccount]);
 
         fs.writeFile('./server/accounts.json', JSON.stringify(accounts), (err) => {

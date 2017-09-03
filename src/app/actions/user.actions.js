@@ -28,6 +28,10 @@ export const updateUser = (info) => {
     return { type: userActions.UPDATING_USER, payload: info };
 };
 
+export const bulkUpdateUser = (data) => {
+    return { type: userActions.BULK_UPDATING_USER, payload: data };
+};
+
 export const getAccounts = () => {
     return { type: userActions.LOADING_ACCOUNT_TYPES };
 };
