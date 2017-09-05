@@ -18,6 +18,8 @@ export default function (ngModule) {
         ctrl.removeAccountFromUser = removeAccountFromUser;
         let unsubscribe;
 
+
+
         ctrl.$onInit = function () {
             unsubscribe = $ngRedux.connect(mapStateToThis, UserActions)(ctrl);
             ctrl.getUsers();
@@ -33,8 +35,6 @@ export default function (ngModule) {
             //     .then(
             //     (resp) => { console.log(resp); }
             //     );
-
-
         };
 
 
@@ -77,8 +77,10 @@ export default function (ngModule) {
                 id: user.id,
                 account_types: accounts
             };
-            ctrl.updateUser(data);
-            user.account_types = accounts;
+            appService.updateUser(data)
+                .then(() => {
+                    ctrl.getUsers();
+                });
         }
         //end of UserListComponent
     }
