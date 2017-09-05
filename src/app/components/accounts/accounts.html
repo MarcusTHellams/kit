@@ -21,7 +21,6 @@
                         <td>
                             {{$ctrl.numOfUsers[account.id].length || 0}}
                         </td>
-                        <td><button ng-click="$ctrl.removeAccount(account.id)" type="button" class="btn btn-danger btn-xs">Delete Account</button></td>
                         <td>
                             <div ng-if="$ctrl.checkIfUserBelongsToAccount(account.id).length">
                                 <div class="form-group">
@@ -35,6 +34,7 @@
                                 <button ng-click="$ctrl.accountsToUser(account)" ng-disabled="!account.users.length" class="btn btn-success btn-xs">Add</button>
                             </div>
                         </td>
+                        <td><button ng-click="$ctrl.removeAccount(account.id)" type="button" class="btn btn-danger btn-xs">Delete Account</button></td>
                     </tr>
                 </tbody>
             </table>
